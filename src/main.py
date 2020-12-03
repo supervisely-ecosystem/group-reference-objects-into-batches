@@ -8,6 +8,7 @@ TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
 PROJECT_ID = int(os.environ["modal.state.slyProjectId"])
 
+
 @my_app.callback("group_reference_objects")
 @sly.timeit
 def group_reference_objects(api: sly.Api, task_id, context, state, app_logger):
