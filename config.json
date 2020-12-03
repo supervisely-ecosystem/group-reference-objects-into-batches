@@ -1,0 +1,19 @@
+{
+  "name": "Group reference objects into batches",
+  "type": "app",
+  "categories": [
+    "retail",
+    "reference items"
+  ],
+  "description": "Group items by selected columns from CSV catalog",
+  "docker_image": "supervisely/base-py-sdk:6",
+  "main_script": "src/main.py",
+  "modal_template": "src/modal.html",
+  "task_location": "application_sessions",
+  "icon": "https://img.icons8.com/color/96/000000/separated-lists.png",
+  "icon_background": "#FFFFFF",
+  "headless": true,
+  "context_menu": {
+    "target": ["files_folder"]
+  }
+}
