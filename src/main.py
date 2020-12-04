@@ -3,12 +3,41 @@ import csv
 import io
 from collections import defaultdict
 import pandas as pd
+import random
+
 import supervisely_lib as sly
+
 
 my_app = sly.AppService()
 
 TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
+
+
+def prepare_example():
+    # sample data from here https://data.world/datafiniti/electronic-products-and-pricing-data
+    local_path = "../sample-data/electronics.csv"
+    products_df = pd.read_csv(local_path)
+    products_df.drop(products_df.columns.difference(['prices.amountMax', 'prices.merchant', 'brand',
+                                                     'categories', 'name', 'upc', 'weight']), 1, inplace=True)
+    products_df['category'] = products_df['categories'].apply(lambda x: x.split(',')[0])
+    products_df['sub-category'] = products_df['categories'].apply(lambda x: x.split(',')[1])
+
+    products_df["price"] = products_df['prices.amountMax']
+    products_df["merchant"] = products_df['prices.merchant']
+
+    count = len(products_df)
+    random_upcs = set()
+    for i in range(count):
+        upc = random.randint(1000000, 9999999)
+        while upc in random_upcs:
+            upc = random.randint(1000000, 9999999)
+        random_upcs.add(upc)
+
+    products_df['upc'] = list(random_upcs)
+
+    products_df = products_df.drop(columns=['categories', 'prices.amountMax', 'prices.merchant'])
+    products_df.to_csv('../sample-data/products_01.csv', index=False)
 
 
 @my_app.callback("group_reference_objects")
@@ -17,20 +46,9 @@ def group_reference_objects(api: sly.Api, task_id, context, state, app_logger):
     # with io.open(local_csv_path, "r", encoding='utf-8-sig') as f_obj:
     #     new_users = {}
     #     reader = csv.DictReader(f_obj, delimiter=DEFAULT_DELIMITER)
-    brands = "../sample-data/brands_original.csv"
-    products = "../sample-data/products_original.csv"
+    prepare_example()
 
-    brands_df = pd.read_csv(brands)
-    print(brands_df[:10])
-
-    products_df = pd.read_csv(products)
-    print(products_df[:10])
-
-    final_products = products_df.merge(brands_df, left_on='grp_id', right_on='grp_id')
-    print(final_products[:10])
-
-    final_products.to_csv('../sample-data/products.csv', index=False)
-
+    pass
 
 
 def main():
