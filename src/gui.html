@@ -1,3 +1,21 @@
 <div>
-    abcd
+    <sly-card class="mt15"
+              title="Step 1. Path to items catalog"
+              subtitle="Copy path to CSV catalog from Team Files and paste it here"
+    >
+        <div class="fflex">
+            <div style="width:180px;">Path to CSV catalog:</div>
+            <el-input v-model="state.catalogPath"></el-input>
+            <el-button class="ml15" type="primary" @click="command('preview_catalog')">
+                <i class="zmdi zmdi-view-list-alt" style="margin-right: 5px"></i> Preview
+            </el-button>
+        </div>
+        <sly-table v-if="data.catalog.data.length > 0 && data.catalogError.length === 0"
+                   :options="{perPage: state.perPage, pageSizes: state.pageSizes}"
+                   :content="data.catalog">
+        </sly-table>
+        <div class="mt15" v-if="data.catalogError.length > 0" style="color: red">{{data.catalogError}}</div>
+    </sly-card>
+
+
 </div>
