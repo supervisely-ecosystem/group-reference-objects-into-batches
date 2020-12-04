@@ -35,6 +35,33 @@ def preview_catalog(api: sly.Api, task_id, context, state, app_logger):
     api.app.set_fields(task_id, fields)
 
 
+@my_app.callback("preview_reference_files")
+@sly.timeit
+def preview_reference_files(api: sly.Api, task_id, context, state, app_logger):
+    fields = None
+    try:
+        dir_path = state["referenceDir"]
+        if dir_path == "":
+            raise ValueError("Directory path is not defined")
+        files = api.file.list(TEAM_ID, dir_path)
+        paths = [file_info["path"] for file_info in files]
+        if len(paths) == 0:
+            raise FileNotFoundError("Directory not found or empty")
+
+        fields = [
+            {"field": "data.referencePaths", "payload": paths},
+            {"field": "data.referenceError", "payload": ""},
+            {"field": "data.referenceSelected", "payload": [False] * len(paths)}
+        ]
+    except Exception as e:
+        fields = [
+            {"field": "data.referencePaths", "payload": []},
+            {"field": "data.referenceError", "payload": repr(e)},
+            {"field": "data.referenceSelected", "payload": []}
+        ]
+    api.app.set_fields(task_id, fields)
+    
+
 @my_app.callback("group_reference_objects")
 @sly.timeit
 def group_reference_objects(api: sly.Api, task_id, context, state, app_logger):
@@ -48,18 +75,21 @@ def main():
     })
 
     #prepare_example()
+    data = {}
+    state = {}
 
-    data = {
-        "catalog": {"columns": [], "data": []},
-        "catalogError": ""
-    }
-    state = {
-        # @TODO: for debug
-        "catalogPath": "/sample-data/products_01.csv",
-        #table view settings
-        "perPage": 15,
-        "pageSizes": [10, 15, 30, 50, 100],
-    }
+    data["catalog"] = {"columns": [], "data": []}
+    data["catalogError"] = ""
+    state["catalogPath"] = "/sample-data/products_01.csv"
+
+    state["referenceDir"] = "/reference_items/"
+    data["referencePaths"] = []
+    data["referenceError"] = ""
+    state["referenceSelected"] = []
+
+    state["perPage"] = 15,
+    state["pageSizes"] = [10, 15, 30, 50, 100]
+
     # Run application service
     my_app.run(data=data, state=state, initial_events=[{"command": "group_reference_objects"}])
 

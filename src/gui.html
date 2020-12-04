@@ -7,14 +7,41 @@
             <div style="width:180px;">Path to CSV catalog:</div>
             <el-input v-model="state.catalogPath"></el-input>
             <el-button class="ml15" type="primary" @click="command('preview_catalog')">
-                <i class="zmdi zmdi-view-list-alt" style="margin-right: 5px"></i> Preview
+                <i class="zmdi zmdi-view-list-alt" style="margin-right: 5px"></i> Preview catalog
             </el-button>
         </div>
-        <sly-table v-if="data.catalog.data.length > 0 && data.catalogError.length === 0"
+        <sly-table class="mt10"
+                   v-if="data.catalog.data.length > 0 && data.catalogError.length === 0"
                    :options="{perPage: state.perPage, pageSizes: state.pageSizes}"
                    :content="data.catalog">
         </sly-table>
         <div class="mt15" v-if="data.catalogError.length > 0" style="color: red">{{data.catalogError}}</div>
+    </sly-card>
+
+    <sly-card class="mt15"
+              title="Step 2. Directory with reference items"
+              subtitle="Put path to the directory with reference items. Directory files will be
+              listed below and you can choose files that have to be splitted into batches. Original files remain
+              unchanged"
+    >
+        <div class="fflex">
+            <div style="width:230px;">Directory with reference items:</div>
+            <el-input v-model="state.referenceDir"></el-input>
+            <el-button class="ml15" type="primary" @click="command('preview_reference_files')">
+                <i class="zmdi zmdi-view-list-alt" style="margin-right: 5px"></i> Preview files
+            </el-button>
+        </div>
+        <div class="mt10" v-if="data.referencePaths.length > 0 && data.referenceError.length === 0">
+            <div style="overflow: scroll; max-height: 300px">
+                <div v-for="(item,index) in data.referencePaths" :key="index">
+                    <el-checkbox class="mt5" v-model="state.referenceSelected[index]">
+                        {{data.referencePaths[index]}}
+                    </el-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="mt15" v-if="data.referenceError.length > 0" style="color: red">{{data.referenceError}}</div>
+
     </sly-card>
 
 
