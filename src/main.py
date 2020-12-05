@@ -101,7 +101,7 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
             for k, v in cur_ref_data["references"].items():
                 references_count += len(v)
         fields = [
-            {"field": "data.referenceMessage", "payload": "Validation passed: {} keys has {} items in total"
+            {"field": "data.referenceMessage", "payload": "Validation passed: {} keys has {} reference items in total"
                                                           .format(len(all_keys), references_count)},
             {"field": "data.messageColor", "payload": "green"},
             {"field": "data.keyTagName", "payload": KEY_TAG_NAME},
@@ -117,6 +117,34 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
         REFERENCE_DATA = {}
 
     api.app.set_fields(task_id, fields)
+
+
+@my_app.callback("preview_groups")
+@sly.timeit
+def preview_groups(api: sly.Api, task_id, context, state, app_logger):
+    main_column_name = state["selectedColumn"]
+
+    #@TODO: for debug
+    reference_keys = list(CATALOG_DF[main_column_name])
+
+    gapminder_2002 = gapminder[gapminder['year'] == 2002]
+    
+    group_columns = []
+    for col_name, checked in zip(CATALOG_COLUMNS, state["groupingColumns"]):
+        if checked is True:
+            group_columns.append(col_name)
+
+    groups = CATALOG_DF.groupby(group_columns)
+    for k, v in groups:
+        groups.get_group(k)
+        x = list(groups.get_group(k)[main_column_name])
+        print(x[:3])
+
+    x = 10
+    x += 1
+
+    y = 10
+    y += 1
 
 
 @my_app.callback("group_reference_objects")
@@ -140,7 +168,6 @@ def main():
     state["catalogPath"] = "/sample-data/products_01.csv"
     data["catalogColumns"] = CATALOG_COLUMNS
     state["selectedColumn"] = ""
-    state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
 
     state["referenceDir"] = "/reference_items/"
     data["referencePaths"] = []
@@ -149,6 +176,9 @@ def main():
     state["referenceSelected"] = []
     data["validationMsg"] = ""
     data["keyTagName"] = ""
+
+    state["groupSize"] = 10
+    state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
 
     state["perPage"] = 15,
     state["pageSizes"] = [10, 15, 30, 50, 100]

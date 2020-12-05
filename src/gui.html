@@ -65,7 +65,9 @@
             </sly-icon>
             <div class="fflex">
                 <div style="min-width:140px;">
-                    Key tag name <el-tag type="primary"><i class="zmdi zmdi-label"></i> {{data.keyTagName}}</el-tag> matched with column
+                    Key tag name
+                    <el-tag type="primary"><i class="zmdi zmdi-label"></i> {{data.keyTagName}}</el-tag>
+                    matched with column
                 </div>
                 <el-select class="ml10" v-model="state.selectedColumn" placeholder="Select">
                     <el-option v-for="item in data.catalogColumns" :key="item" :label="item" :value="item"></el-option>
@@ -86,6 +88,20 @@
                 </div>
             </div>
         </sly-field>
+        <sly-field title="Maximum size of group"
+                   description="Maximum number of unique reference items in group">
+            <el-input-number v-model="state.groupSize" :min="1" :max="100"></el-input-number>
+            <sly-icon slot="icon" :options="{ color: '#2cd26e', bgColor: '#d8f8e7', rounded: false }">
+                <i class="zmdi zmdi-ruler"></i>
+            </sly-icon>
+        </sly-field>
+        <el-button class="mt10"
+                   type="primary"
+                   @click="command('preview_groups')"
+                   :disabled="state.groupingColumns.filter(Boolean).length == 0"
+        >
+            <i class="zmdi zmdi-check-all" style="margin-right: 5px"></i> Preview groups
+        </el-button>
     </sly-card>
 
 </div>
