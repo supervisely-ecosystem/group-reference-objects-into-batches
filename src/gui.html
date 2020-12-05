@@ -40,7 +40,7 @@
                     </el-checkbox>
                 </div>
             </div>
-            <el-button class="ml15"
+            <el-button class="mt10"
                        type="primary"
                        @click="command('validate_reference_files')"
                        :disabled="state.referenceSelected.filter(Boolean).length == 0"
@@ -48,12 +48,44 @@
                 <i class="zmdi zmdi-check-all" style="margin-right: 5px"></i> Validate
             </el-button>
         </div>
-        <div class="mt15" v-if="data.referenceError.length > 0" style="color: red">{{data.referenceError}}</div>
+        <div class="mt10"
+             v-if="data.referenceMessage.length > 0"
+             :style="{color: data.messageColor}">
+            {{data.referenceMessage}}
+        </div>
     </sly-card>
     <sly-card class="mt15"
-              title="Step 3. Choose "
-              subtitle="Copy path to CSV catalog from Team Files and paste it here"
+              title="Step 3. Grouping options"
+              subtitle="Match reference item with catalog, and define grouping settings"
     >
+        <sly-field title="Match reference item with catalog"
+                   description="Define mapping between key tag name (key of reference item) and CSV column">
+            <sly-icon slot="icon" :options="{ color: '#ea9d22', bgColor: '#fcefd9', rounded: false }">
+                <i class="zmdi zmdi-key"></i>
+            </sly-icon>
+            <div class="fflex">
+                <div style="min-width:140px;">
+                    Key tag name <el-tag type="primary"><i class="zmdi zmdi-label"></i> {{data.keyTagName}}</el-tag> matched with column
+                </div>
+                <el-select class="ml10" v-model="state.selectedColumn" placeholder="Select">
+                    <el-option v-for="item in data.catalogColumns" :key="item" :label="item" :value="item"></el-option>
+                </el-select>
+            </div>
+        </sly-field>
+        <sly-field title="Choose CSV columns for grouping"
+                   description="Reference items will be grouped using one or several columns. Or don't select any
+                   column to group reference items randomly (not recommended)">
+            <sly-icon slot="icon" :options="{ color: '#ceadff', bgColor: '#f6ebff', rounded: false }">
+                <i class="zmdi zmdi-collection-plus"></i>
+            </sly-icon>
+            <div style="overflow: scroll; max-height: 300px">
+                <div v-for="(item,index) in data.catalogColumns" :key="index">
+                    <el-checkbox class="mt5" v-model="state.groupingColumns[index]">
+                        {{item}}
+                    </el-checkbox>
+                </div>
+            </div>
+        </sly-field>
     </sly-card>
 
 </div>
