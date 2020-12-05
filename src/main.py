@@ -125,26 +125,26 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
     main_column_name = state["selectedColumn"]
 
     #@TODO: for debug
-    reference_keys = list(CATALOG_DF[main_column_name])
+    reference_keys = list(CATALOG_DF[main_column_name])[:300]
+    filtered_catalog = CATALOG_DF[CATALOG_DF[main_column_name].isin(reference_keys)]
 
-    gapminder_2002 = gapminder[gapminder['year'] == 2002]
-    
     group_columns = []
     for col_name, checked in zip(CATALOG_COLUMNS, state["groupingColumns"]):
         if checked is True:
             group_columns.append(col_name)
 
-    groups = CATALOG_DF.groupby(group_columns)
+    groups_preview = []
+    groups = filtered_catalog.groupby(group_columns)
     for k, v in groups:
-        groups.get_group(k)
-        x = list(groups.get_group(k)[main_column_name])
-        print(x[:3])
+        g = groups.get_group(k)
+        g.drop(group_columns, axis=1, inplace=True)
+        html = g.to_html()
+        groups_preview.append({"name": k, "htmlTable": html})
 
-    x = 10
-    x += 1
-
-    y = 10
-    y += 1
+    fields = [
+        {"field": "data.groupsPreview", "payload": groups_preview},
+    ]
+    api.app.set_fields(task_id, fields)
 
 
 @my_app.callback("group_reference_objects")
@@ -179,6 +179,7 @@ def main():
 
     state["groupSize"] = 10
     state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
+    data["groupsPreview"] = []
 
     state["perPage"] = 15,
     state["pageSizes"] = [10, 15, 30, 50, 100]
@@ -186,6 +187,6 @@ def main():
     # Run application service
     my_app.run(data=data, state=state, initial_events=[{"command": "group_reference_objects"}])
 
-
+#@TODO: style group tables
 if __name__ == "__main__":
     sly.main_wrapper("main", main)
