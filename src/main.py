@@ -1,6 +1,8 @@
 import os
 import json
 import pandas as pd
+from collections import defaultdict
+
 import supervisely_lib as sly
 from generate_example import prepare_example
 
@@ -14,6 +16,7 @@ CATALOG_COLUMNS = []
 REFERENCE_PATHS = None
 REFERENCE_DATA = {}
 KEY_TAG_NAME = None
+KEY_EXAMPLES = None
 
 BATCHES = []
 
@@ -64,7 +67,7 @@ def preview_reference_files(api: sly.Api, task_id, context, state, app_logger):
         fields = [
             {"field": "data.referencePaths", "payload": paths},
             {"field": "data.referenceError", "payload": ""},
-            {"field": "data.referenceSelected", "payload": [False] * len(paths)}
+            {"field": "data.referenceSelected", "payload": [False] * len(paths)},
         ]
         REFERENCE_PATHS = paths
     except Exception as e:
@@ -80,9 +83,10 @@ def preview_reference_files(api: sly.Api, task_id, context, state, app_logger):
 @my_app.callback("validate_reference_files")
 @sly.timeit
 def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
-    global REFERENCE_DATA, KEY_TAG_NAME
+    global REFERENCE_DATA, KEY_TAG_NAME, KEY_EXAMPLES
     all_keys = set()
     references_count = 0
+    KEY_EXAMPLES = defaultdict(list)
 
     try:
         selected = state["referenceSelected"]
@@ -99,6 +103,10 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
                     raise ValueError("Key tag name {!r} in file {!r} differs from name in other files"
                                      .format(cur_ref_data["key_tag_name"], remote_path))
             REFERENCE_DATA[remote_path] = cur_ref_data
+
+            for key, examples in cur_ref_data["references"].items():
+                KEY_EXAMPLES[key].extend(examples)
+
             all_keys.update(cur_ref_data["all_keys"])
             for k, v in cur_ref_data["references"].items():
                 references_count += len(v)
@@ -141,7 +149,7 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
 
     groups_preview = []
     groups = filtered_catalog.groupby(group_columns)
-    group_index = 1
+    group_index = 0
     for k, v in groups:
         g = groups.get_group(k)
         g = g.drop(group_columns, axis=1)
@@ -161,8 +169,10 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
             groups_preview.append({"name": group_name, "htmlTable": html, "index": group_index})
             group_index += 1
 
+    save_path = api.file.get_free_name(TEAM_ID, os.path.join(state["referenceDir"], "batches.json"))
     fields = [
         {"field": "data.groupsPreview", "payload": groups_preview},
+        {"field": "state.savePath", "payload": save_path},
     ]
     api.app.set_fields(task_id, fields)
 
@@ -170,10 +180,47 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
 @my_app.callback("save_groups")
 @sly.timeit
 def save_groups(api: sly.Api, task_id, context, state, app_logger):
-    fields = [
-        {"field": "data.saveMessage", "payload": "File has been successfully saved"},
-        {"field": "data.saveColor", "payload": "greed"},
-    ]
+    try:
+        if state["savePath"] == "":
+            raise ValueError("Save path is undefined")
+        if api.file.exists(TEAM_ID, state["savePath"]):
+            raise ValueError("File already exists. Remove it manually or change save path")
+
+        result = []
+        for idx, batch_original in enumerate(BATCHES):
+            batch = {
+                "batch_index": idx,
+                "group_columns": dict(zip(group_columns, k)),
+                "key_col_name": state["selectedColumn"],
+                "references": {},
+                "references_catalog_info": {}
+            }
+
+            batch_original["df"]: pd.DataFrame
+            batch_catalog = batch_original["df"].to_json(orient="records", index=False)
+
+            for batch_catalog_row in batch_catalog:
+                key = batch_catalog_row[state["selectedColumn"]]
+                batch["references"][key] = KEY_EXAMPLES[key]
+                batch["references_catalog_info"][key] = batch_catalog_row
+
+            result.append(batch)
+
+        local_path = os.path.join(my_app.data_dir, sly.fs.get_file_name_with_ext(state["savePath"]))
+        sly.json.dump_json_file(result, local_path)
+        api.file.upload(TEAM_ID, local_path, state["savePath"])
+        sly.fs.silent_remove(local_path)
+
+        fields = [
+            {"field": "data.saveMessage", "payload": "File has been successfully saved"},
+            {"field": "data.saveColor", "payload": "greed"},
+        ]
+    except Exception as e:
+        fields = [
+            {"field": "data.saveMessage", "payload": repr(e)},
+            {"field": "data.saveColor", "payload": "red"},
+        ]
+
     api.app.set_fields(task_id, fields)
 
 
@@ -211,6 +258,7 @@ def main():
     state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
     data["groupsPreview"] = []
 
+    data["savePath"] = ""
     data["saveMessage"] = ""
     data["saveColor"] = "red"
 
