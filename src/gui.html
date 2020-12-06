@@ -102,11 +102,11 @@
         >
             <i class="zmdi zmdi-check-all" style="margin-right: 5px"></i> Preview groups
         </el-button>
-        <div class="mt10" v-if="data.groupsPreview.length > 0" style="background: #e6e6e6;">
+        <div class="mt10" v-if="data.groupsPreview.length > 0" style="background: #f5f5f5;">
             <div style="overflow: scroll; max-height: 400px">
                 <div v-for="(item, index) in data.groupsPreview" :key="index">
-                    <div>Group: {{item.name}}</div>
-                    <div v-html="item.htmlTable"></div>
+                    <div class="mt15" style="color: green"><b>#{{item.index}}: {{item.name}}</b></div>
+                    <div class="mt5" v-html="item.htmlTable"></div>
                 </div>
             </div>
         </div>

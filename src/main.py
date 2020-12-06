@@ -101,7 +101,7 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
             for k, v in cur_ref_data["references"].items():
                 references_count += len(v)
         fields = [
-            {"field": "data.referenceMessage", "payload": "Validation passed: {} keys has {} reference items in total"
+            {"field": "data.referenceMessage", "payload": "Validation passed: {} reference items with {} examples"
                                                           .format(len(all_keys), references_count)},
             {"field": "data.messageColor", "payload": "green"},
             {"field": "data.keyTagName", "payload": KEY_TAG_NAME},
@@ -123,6 +123,7 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
 @sly.timeit
 def preview_groups(api: sly.Api, task_id, context, state, app_logger):
     main_column_name = state["selectedColumn"]
+    group_size = state["groupSize"]
 
     #@TODO: for debug
     reference_keys = list(CATALOG_DF[main_column_name])[:300]
@@ -135,11 +136,20 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
 
     groups_preview = []
     groups = filtered_catalog.groupby(group_columns)
+    group_index = 1
     for k, v in groups:
         g = groups.get_group(k)
-        g.drop(group_columns, axis=1, inplace=True)
-        html = g.to_html()
-        groups_preview.append({"name": k, "htmlTable": html})
+        g = g.drop(group_columns, axis=1)
+
+        group_name = ""
+        for col_name, col_value in zip(group_columns, k):
+            group_name += "{}: {}; ".format(col_name, col_value)
+
+        list_df = [g[i:i + group_size] for i in range(0, g.shape[0], group_size)]
+        for batch_df in list_df:
+            html = batch_df.to_html()
+            groups_preview.append({"name": group_name, "htmlTable": html, "index": group_index})
+            group_index += 1
 
     fields = [
         {"field": "data.groupsPreview", "payload": groups_preview},
@@ -177,7 +187,7 @@ def main():
     data["validationMsg"] = ""
     data["keyTagName"] = ""
 
-    state["groupSize"] = 10
+    state["groupSize"] = 9
     state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
     data["groupsPreview"] = []
 
@@ -186,6 +196,7 @@ def main():
 
     # Run application service
     my_app.run(data=data, state=state, initial_events=[{"command": "group_reference_objects"}])
+
 
 #@TODO: style group tables
 if __name__ == "__main__":
