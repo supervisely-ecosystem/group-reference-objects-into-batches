@@ -15,6 +15,8 @@ REFERENCE_PATHS = None
 REFERENCE_DATA = {}
 KEY_TAG_NAME = None
 
+BATCHES = []
+
 
 @my_app.callback("preview_catalog")
 @sly.timeit
@@ -122,6 +124,9 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
 @my_app.callback("preview_groups")
 @sly.timeit
 def preview_groups(api: sly.Api, task_id, context, state, app_logger):
+    global BATCHES
+
+    BATCHES = []
     main_column_name = state["selectedColumn"]
     group_size = state["groupSize"]
 
@@ -147,12 +152,27 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
 
         list_df = [g[i:i + group_size] for i in range(0, g.shape[0], group_size)]
         for batch_df in list_df:
+            BATCHES.append({
+                "column_names": group_columns,
+                "column_values": k,
+                "df": batch_df
+            })
             html = batch_df.to_html()
             groups_preview.append({"name": group_name, "htmlTable": html, "index": group_index})
             group_index += 1
 
     fields = [
         {"field": "data.groupsPreview", "payload": groups_preview},
+    ]
+    api.app.set_fields(task_id, fields)
+
+
+@my_app.callback("save_groups")
+@sly.timeit
+def save_groups(api: sly.Api, task_id, context, state, app_logger):
+    fields = [
+        {"field": "data.saveMessage", "payload": "File has been successfully saved"},
+        {"field": "data.saveColor", "payload": "greed"},
     ]
     api.app.set_fields(task_id, fields)
 
@@ -190,6 +210,9 @@ def main():
     state["groupSize"] = 9
     state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
     data["groupsPreview"] = []
+
+    data["saveMessage"] = ""
+    data["saveColor"] = "red"
 
     state["perPage"] = 15,
     state["pageSizes"] = [10, 15, 30, 50, 100]

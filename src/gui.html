@@ -90,10 +90,10 @@
         </sly-field>
         <sly-field title="Maximum size of group"
                    description="Maximum number of unique reference items in group">
-            <el-input-number v-model="state.groupSize" :min="1" :max="100"></el-input-number>
             <sly-icon slot="icon" :options="{ color: '#2cd26e', bgColor: '#d8f8e7', rounded: false }">
                 <i class="zmdi zmdi-ruler"></i>
             </sly-icon>
+            <el-input-number v-model="state.groupSize" :min="1" :max="100"></el-input-number>
         </sly-field>
         <el-button class="mt10"
                    type="primary"
@@ -102,12 +102,32 @@
         >
             <i class="zmdi zmdi-check-all" style="margin-right: 5px"></i> Preview groups
         </el-button>
-        <div class="mt10" v-if="data.groupsPreview.length > 0" style="background: #f5f5f5;">
-            <div style="overflow: scroll; max-height: 400px">
+        <div class="mt10" v-if="data.groupsPreview.length > 0">
+            <div class="mb15" style="overflow: scroll; max-height: 400px; background: #f5f5f5;">
                 <div v-for="(item, index) in data.groupsPreview" :key="index">
                     <div class="mt15" style="color: green"><b>#{{item.index}}: {{item.name}}</b></div>
                     <div class="mt5" v-html="item.htmlTable"></div>
                 </div>
+            </div>
+            <sly-field title="Save groups"
+                       description="JSON file with the groups of reference items will be saved to the following path">
+                <sly-icon slot="icon" :options="{ color: '#2cd26e', bgColor: '#d8f8e7', rounded: false }">
+                    <i class="zmdi zmdi-floppy"></i>
+                </sly-icon>
+                <div class="fflex">
+                    <el-input v-model="state.savePath" placeholder="Please input save path in Team Files"></el-input>
+                    <el-button class="ml10"
+                               type="primary"
+                               @click="command('save_groups')"
+                    >
+                        <i class="zmdi zmdi-floppy" style="margin-right: 5px"></i> Save
+                    </el-button>
+                </div>
+            </sly-field>
+            <div class="mt10"
+                 v-if="data.saveMessage.length > 0"
+                 :style="{color: data.saveColor}">
+                {{data.saveMessage}}
             </div>
         </div>
     </sly-card>
