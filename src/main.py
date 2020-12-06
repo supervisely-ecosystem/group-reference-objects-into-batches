@@ -18,6 +18,7 @@ REFERENCE_DATA = {}
 KEY_TAG_NAME = None
 KEY_EXAMPLES = None
 
+GROUP_COLUMNS = None
 BATCHES = []
 
 
@@ -132,36 +133,35 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
 @my_app.callback("preview_groups")
 @sly.timeit
 def preview_groups(api: sly.Api, task_id, context, state, app_logger):
-    global BATCHES
+    global BATCHES, GROUP_COLUMNS
 
     BATCHES = []
     main_column_name = state["selectedColumn"]
     group_size = state["groupSize"]
 
-    #@TODO: for debug
+    #@TODO: for debug; use real items - NIY
     reference_keys = list(CATALOG_DF[main_column_name])[:300]
     filtered_catalog = CATALOG_DF[CATALOG_DF[main_column_name].isin(reference_keys)]
 
-    group_columns = []
+    GROUP_COLUMNS = []
     for col_name, checked in zip(CATALOG_COLUMNS, state["groupingColumns"]):
         if checked is True:
-            group_columns.append(col_name)
-
+            GROUP_COLUMNS.append(col_name)
     groups_preview = []
-    groups = filtered_catalog.groupby(group_columns)
+    groups = filtered_catalog.groupby(GROUP_COLUMNS)
     group_index = 0
     for k, v in groups:
         g = groups.get_group(k)
-        g = g.drop(group_columns, axis=1)
+        #g = g.drop(GROUP_COLUMNS, axis=1)
 
         group_name = ""
-        for col_name, col_value in zip(group_columns, k):
+        for col_name, col_value in zip(GROUP_COLUMNS, k):
             group_name += "{}: {}; ".format(col_name, col_value)
 
         list_df = [g[i:i + group_size] for i in range(0, g.shape[0], group_size)]
         for batch_df in list_df:
             BATCHES.append({
-                "column_names": group_columns,
+                "column_names": GROUP_COLUMNS,
                 "column_values": k,
                 "df": batch_df
             })
@@ -190,18 +190,19 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
         for idx, batch_original in enumerate(BATCHES):
             batch = {
                 "batch_index": idx,
-                "group_columns": dict(zip(group_columns, k)),
+                "group_columns": dict(zip(batch_original["column_names"], batch_original["column_values"])),
                 "key_col_name": state["selectedColumn"],
                 "references": {},
                 "references_catalog_info": {}
             }
 
             batch_original["df"]: pd.DataFrame
-            batch_catalog = batch_original["df"].to_json(orient="records", index=False)
-
+            batch_catalog = batch_original["df"].to_json(orient="records")
+            batch_catalog = json.loads(batch_catalog)
             for batch_catalog_row in batch_catalog:
                 key = batch_catalog_row[state["selectedColumn"]]
                 batch["references"][key] = KEY_EXAMPLES[key]
+                del batch_catalog_row['#']
                 batch["references_catalog_info"][key] = batch_catalog_row
 
             result.append(batch)
@@ -222,12 +223,6 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
         ]
 
     api.app.set_fields(task_id, fields)
-
-
-@my_app.callback("group_reference_objects")
-@sly.timeit
-def group_reference_objects(api: sly.Api, task_id, context, state, app_logger):
-    pass
 
 
 def main():
@@ -266,9 +261,10 @@ def main():
     state["pageSizes"] = [10, 15, 30, 50, 100]
 
     # Run application service
-    my_app.run(data=data, state=state, initial_events=[{"command": "group_reference_objects"}])
+    my_app.run(data=data, state=state)
 
 
 #@TODO: style group tables
+#@TODO: use real keys from files
 if __name__ == "__main__":
     sly.main_wrapper("main", main)
