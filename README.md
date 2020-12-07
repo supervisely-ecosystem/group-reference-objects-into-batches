@@ -75,4 +75,8 @@ Before:
 After:
  <img src="https://i.imgur.com/tWB1Q5G.png"/>
  
+**Step 4:** Stop app manually
+
+<img src="https://i.imgur.com/flXfONq.png"/>
+
 
