@@ -174,6 +174,7 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
         {"field": "data.groupsPreview", "payload": groups_preview},
         {"field": "data.groupsPreview", "payload": groups_preview},
         {"field": "state.savePath", "payload": save_path},
+        {"field": "state.activePreview", "payload": ["1"]},
     ]
     api.app.set_fields(task_id, fields)
 
@@ -238,11 +239,11 @@ def main():
 
     data["catalog"] = {"columns": [], "data": []}
     data["catalogError"] = ""
-    state["catalogPath"] = "/sample-data/products_01.csv"
+    state["catalogPath"] = "" #"/sample-data/products_01.csv"
     data["catalogColumns"] = CATALOG_COLUMNS
     state["selectedColumn"] = ""
 
-    state["referenceDir"] = "/reference_items/"
+    state["referenceDir"] = ""# "/reference_items/"
     data["referencePaths"] = []
     data["referenceMessage"] = ""
     data["messageColor"] = "red"
@@ -255,6 +256,8 @@ def main():
     data["groupsPreview"] = []
     data["groupColumnNames"] = []
     data["groupColumnValues"] = []
+
+    state["activePreview"] = []
 
     data["savePath"] = ""
     data["saveMessage"] = ""

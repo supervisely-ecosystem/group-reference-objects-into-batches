@@ -103,7 +103,7 @@
         >
             <i class="zmdi zmdi-check-all" style="margin-right: 5px"></i> Create groups
         </el-button>
-        <el-collapse class="mb15">
+        <el-collapse class="mb15" v-model="state.activePreview">
             <el-collapse-item title="Preview groups" name="1">
                 <div class="mb15" v-if="data.groupsPreview.length > 0" style="overflow: scroll; max-height: 400px;">
                     <div v-for="(item, index) in data.groupsPreview" :key="index">
