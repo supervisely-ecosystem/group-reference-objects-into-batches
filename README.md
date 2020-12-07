@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://https://i.imgur.com/Ab2GHSQ.png"/>
+<img src="https://i.imgur.com/Ab2GHSQ.png"/>
 
 # Group reference objects into batches
 
