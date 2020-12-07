@@ -66,5 +66,13 @@ After:
  <img src="https://i.imgur.com/OUM7FBM.png"/>
 
 
+**Step 3:** Match reference item with column from CSV catalog, choose `groupBy` columns from catalog (order matters) zzz 
 
+
+Before:
+ <img src="https://i.imgur.com/EU4cS1g.png"/>
+
+After:
+ <img src="https://i.imgur.com/OUM7FBM.png"/>
+ 
 
