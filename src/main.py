@@ -137,7 +137,7 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
     main_column_name = state["selectedColumn"]
     group_size = state["groupSize"]
 
-    #@TODO: for debug; use real items - NIY
+    #@TODO: for debug; use real items
     #reference_keys = list(CATALOG_DF[main_column_name])[:300]
 
     reference_keys = []
