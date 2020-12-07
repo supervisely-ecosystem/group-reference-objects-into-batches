@@ -260,7 +260,7 @@ def main():
     data["saveMessage"] = ""
     data["saveColor"] = "red"
 
-    state["perPage"] = 15,
+    state["perPage"] = 10,
     state["pageSizes"] = [10, 15, 30, 50, 100]
 
     # Run application service
