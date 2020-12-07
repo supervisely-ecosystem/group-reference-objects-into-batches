@@ -28,6 +28,7 @@ Let's consider retail case as example:
 - The size of catalog: 1350 unique items
 - The size of annotation team: 150 labelers
 - Images look like this:
+
 <img src="https://thumbs.dreamstime.com/z/pet-products-shelves-supermarket-pet-products-shelves-supermarket-auchan-romania-145486859.jpg" width="400px"/>
 
 Put bounding box around every object - it's a feasible task. But it is hard and time consuming to assign correct product identifier from huge catalog to every bbox. One of the approaches is to split catalog across all labelers: in our case `1350 unique items` / `150 labelers` = `9 items in a batch`. Labeler will work with his batch the following way: go through all bboxes and match them with only 9 items. 
