@@ -68,7 +68,7 @@ def preview_reference_files(api: sly.Api, task_id, context, state, app_logger):
         fields = [
             {"field": "data.referencePaths", "payload": paths},
             {"field": "data.referenceError", "payload": ""},
-            {"field": "data.referenceSelected", "payload": [False] * len(paths)},
+            {"field": "state.referenceSelected", "payload": [False] * len(paths)},
         ]
         REFERENCE_PATHS = paths
     except Exception as e:
@@ -121,7 +121,7 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
         ]
     except Exception as e:
         fields = [
-            {"field": "data.referenceMessage", "payload": repr(e)},
+            {"field": "data.referenceMessage", "payload": remote_path + " :" + repr(e)},
             {"field": "data.messageColor", "payload": "red"},
             {"field": "data.keyTagName", "payload": ""},
         ]
@@ -150,6 +150,7 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
     groups_preview = []
     groups = filtered_catalog.groupby(GROUP_COLUMNS)
     group_index = 0
+    _group_column_values = []
     for k, v in groups:
         g = groups.get_group(k)
         #g = g.drop(GROUP_COLUMNS, axis=1)
@@ -165,12 +166,17 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
                 "column_values": k,
                 "df": batch_df
             })
-            html = batch_df.to_html()
+            _group_column_values.append(k)
+            batch_df = batch_df.drop('#', axis=1)
+            html = batch_df.to_html(index=False)
             groups_preview.append({"name": group_name, "htmlTable": html, "index": group_index})
             group_index += 1
 
     save_path = api.file.get_free_name(TEAM_ID, os.path.join(state["referenceDir"], "batches.json"))
     fields = [
+        {"field": "data.groupColumnNames", "payload": GROUP_COLUMNS},
+        {"field": "data.groupColumnValues", "payload": _group_column_values},
+        {"field": "data.groupsPreview", "payload": groups_preview},
         {"field": "data.groupsPreview", "payload": groups_preview},
         {"field": "state.savePath", "payload": save_path},
     ]
@@ -252,6 +258,8 @@ def main():
     state["groupSize"] = 9
     state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
     data["groupsPreview"] = []
+    data["groupColumnNames"] = []
+    data["groupColumnValues"] = []
 
     data["savePath"] = ""
     data["saveMessage"] = ""
