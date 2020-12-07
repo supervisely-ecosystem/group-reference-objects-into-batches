@@ -38,7 +38,6 @@ def preview_catalog(api: sly.Api, task_id, context, state, app_logger):
             {"field": "data.catalogError", "payload": ""},
             {"field": "data.catalogColumns", "payload": CATALOG_COLUMNS},
             {"field": "state.selectedColumn", "payload": CATALOG_COLUMNS[0]},
-            {"field": "state.groupingColumns", "payload": [False] * len(CATALOG_COLUMNS)},
         ]
         CATALOG_DF = catalog_df
     except Exception as e:
@@ -47,7 +46,6 @@ def preview_catalog(api: sly.Api, task_id, context, state, app_logger):
             {"field": "data.catalogError", "payload": repr(e)},
             {"field": "data.catalogColumns", "payload": []},
             {"field": "state.selectedColumn", "payload": ""},
-            {"field": "state.groupingColumns", "payload": []},
         ]
         CATALOG_DF = None
     api.app.set_fields(task_id, fields)
@@ -143,10 +141,7 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
     reference_keys = list(CATALOG_DF[main_column_name])[:300]
     filtered_catalog = CATALOG_DF[CATALOG_DF[main_column_name].isin(reference_keys)]
 
-    GROUP_COLUMNS = []
-    for col_name, checked in zip(CATALOG_COLUMNS, state["groupingColumns"]):
-        if checked is True:
-            GROUP_COLUMNS.append(col_name)
+    GROUP_COLUMNS = state["groupByColumns"]
     groups_preview = []
     groups = filtered_catalog.groupby(GROUP_COLUMNS)
     group_index = 0
@@ -256,7 +251,7 @@ def main():
     data["keyTagName"] = ""
 
     state["groupSize"] = 9
-    state["groupingColumns"] = [False] * len(CATALOG_COLUMNS)
+    state["groupByColumns"] = []
     data["groupsPreview"] = []
     data["groupColumnNames"] = []
     data["groupColumnValues"] = []

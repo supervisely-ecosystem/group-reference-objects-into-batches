@@ -74,19 +74,20 @@
                 </el-select>
             </div>
         </sly-field>
-        <sly-field title="Choose CSV columns for grouping"
+        <sly-field title="Choose CSV columns for grouping (selection order matters)"
                    description="Reference items will be grouped using one or several columns. Or don't select any
                    column to group reference items randomly (not recommended)">
             <sly-icon slot="icon" :options="{ color: '#ceadff', bgColor: '#f6ebff', rounded: false }">
                 <i class="zmdi zmdi-collection-plus"></i>
             </sly-icon>
-            <div style="overflow: scroll; max-height: 300px">
-                <div v-for="(item,index) in data.catalogColumns" :key="index">
-                    <el-checkbox class="mt5" v-model="state.groupingColumns[index]">
-                        {{item}}
-                    </el-checkbox>
-                </div>
-            </div>
+            <el-select v-model="state.groupByColumns" filterable multiple placeholder="Select columns">
+                <el-option
+                        v-for="(item, index) in data.catalogColumns"
+                        :key="item"
+                        :label="item"
+                        :value="item"
+                ></el-option>
+            </el-select>
         </sly-field>
         <sly-field title="Maximum size of group"
                    description="Maximum number of unique reference items in group">
@@ -98,7 +99,7 @@
         <el-button class="mt10"
                    type="primary"
                    @click="command('preview_groups')"
-                   :disabled="state.groupingColumns.filter(Boolean).length == 0"
+                   :disabled="state.groupByColumns.length == 0"
         >
             <i class="zmdi zmdi-check-all" style="margin-right: 5px"></i> Preview groups
         </el-button>
