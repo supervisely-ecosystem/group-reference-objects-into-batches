@@ -7,6 +7,7 @@
   <a href="#Overview">Overview</a> •
   <a href="#How-To-Run">How To Run</a>
   <a href="#How-To-Use">How To Use</a>
+  <a href="#Result-JSON-Format">Result JSON format</a>
 </p>
 
 
@@ -19,7 +20,7 @@
 
 </div>
 
-## Overview
+# Overview
 
 Labeling for tagging or classification tasks becomes complex when annotation team have to deal with hundreds or thousands of tags or classes. This app groups items from catalog by one or several columns and then splits groups into small batches. This app is a part of complex tagging/classification pipline. For example, you can see all apps from [retail collection](https://ecosystem.supervise.ly/).
 
@@ -83,3 +84,59 @@ After:
 <img src="https://i.imgur.com/flXfONq.png"/>
 
 
+# Result JSON format
+
+```json
+[
+  {
+    "batch_index": 0,
+    "group_columns": {
+      "category": "Accessories",
+      "sub-category": "Portable Power Banks",
+      "brand": "Samsung"
+    },
+    "key_col_name": "upc",
+    "references": {
+      "6750711": ["..."],
+      "7930356": ["..."],
+      "9994737": ["..."]
+    },
+    "references_catalog_info": {
+      "6750711": {
+        "brand": "Samsung",
+        "name": "Samsung Universal 3100mAh Portable External Battery Charger - White",
+        "upc": 6750711,
+        "weight": "5.6 ounces",
+        "category": "Accessories",
+        "sub-category": "Portable Power Banks",
+        "price": 17.99,
+        "merchant": "Bestbuy.com"
+      },
+      "7930356": {
+        "brand": "Samsung",
+        "name": "Samsung Universal 3100mAh Portable External Battery Charger - White",
+        "upc": 7930356,
+        "weight": "5.6 ounces",
+        "category": "Accessories",
+        "sub-category": "Portable Power Banks",
+        "price": 14.84,
+        "merchant": "accessorynet"
+      },
+      "9994737": {
+        "brand": "Samsung",
+        "name": "Samsung Universal 3100mAh Portable External Battery Charger - White",
+        "upc": 9994737,
+        "weight": "5.6 ounces",
+        "category": "Accessories",
+        "sub-category": "Portable Power Banks",
+        "price": 22.99,
+        "merchant": "Bestbuy.com"
+      }
+    }
+  },
+  {
+    "batch_index": 1,
+    "...": "..."
+  }
+]
+```
