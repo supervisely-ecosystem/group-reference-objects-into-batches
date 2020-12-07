@@ -49,7 +49,7 @@ Key **advantages** of this approach:
 
 # How To Use
 
-**Step 1:** Define the path to CSV product catalog in `Team Files` and press `Preview catalog` button
+**Step 1:** Define the path to `CSV` product catalog in `Team Files` and press `Preview catalog` button
 
 Before:
  <img src="https://i.imgur.com/6ds1Rnl.png"/>
@@ -57,7 +57,7 @@ Before:
 After:
  <img src="https://i.imgur.com/xTDnKYt.png"/>
  
- **Step 2:** Define the path to directory with JSON reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervise.ly/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
+ **Step 2:** Define the path to directory with `JSON` reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervise.ly/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
  
 Before:
  <img src="https://i.imgur.com/28A6AUg.png"/>
@@ -66,7 +66,7 @@ After:
  <img src="https://i.imgur.com/OUM7FBM.png"/>
 
 
-**Step 3:** Match reference item with column from CSV catalog, choose `groupBy` columns from catalog (order matters) zzz 
+**Step 3:** Match reference item with column from CSV catalog, choose `groupBy` columns from catalog (order matters), define batch size and press `Create groups` button. Then preview groups. You can change some grouping parameters and press `Create groups` button again. If you satisfied with results, setup save path and press `Save` button. Resulting groups will be saved to `Team Files` in `JSON` format.
 
 
 Before:
