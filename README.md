@@ -60,10 +60,10 @@ After:
  **Step 2:** Define the path to directory with JSON reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervise.ly/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
  
 Before:
- <img src="https://i.imgur.com/Qw5uKtJ.png"/>
+ <img src="https://i.imgur.com/28A6AUg.png"/>
 
 After:
- <img src="https://i.imgur.com/kVm53pY.png"/>
+ <img src="https://i.imgur.com/OUM7FBM.png"/>
 
 
 
