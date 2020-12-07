@@ -51,7 +51,7 @@ Key **advantages** of this approach:
 
 # How To Use
 
-[![Watch the video](https://i.imgur.com/sjzuIcY.png)](https://youtu.be/MyrOgn4RpyA)
+[![Watch the video](https://i.imgur.com/grDPMed.png)](https://youtu.be/MyrOgn4RpyA)
 
 **Step 1:** Define the path to `CSV` product catalog in `Team Files` and press `Preview catalog` button
 
