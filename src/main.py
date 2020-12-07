@@ -138,7 +138,12 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
     group_size = state["groupSize"]
 
     #@TODO: for debug; use real items - NIY
-    reference_keys = list(CATALOG_DF[main_column_name])[:300]
+    #reference_keys = list(CATALOG_DF[main_column_name])[:300]
+
+    reference_keys = []
+    for remote_path, data in REFERENCE_DATA.items():
+        reference_keys.extend(list(data["references"].keys()))
+
     filtered_catalog = CATALOG_DF[CATALOG_DF[main_column_name].isin(reference_keys)]
 
     GROUP_COLUMNS = state["groupByColumns"]
@@ -271,6 +276,5 @@ def main():
 
 
 #@TODO: style group tables
-#@TODO: use real keys from files
 if __name__ == "__main__":
     sly.main_wrapper("main", main)
