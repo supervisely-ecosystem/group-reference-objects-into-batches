@@ -42,5 +42,8 @@ Key **advantages** of this approach:
 
 **Step 2:** Run app 
  
+ <img src="https://i.imgur.com/Y5PgfbT.png"/>
+ 
+**Step 2:** Run app  
 
 
