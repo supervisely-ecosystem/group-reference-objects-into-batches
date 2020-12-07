@@ -215,7 +215,7 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
 
         fields = [
             {"field": "data.saveMessage", "payload": "File has been successfully saved"},
-            {"field": "data.saveColor", "payload": "greed"},
+            {"field": "data.saveColor", "payload": "green"},
         ]
     except Exception as e:
         fields = [
