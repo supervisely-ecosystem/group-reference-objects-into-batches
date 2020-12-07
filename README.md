@@ -36,5 +36,11 @@ Key **advantages** of this approach:
 - the chance of error is reduced significantly
 - if bbox is matched with one of 9 items from batch it takes just few clicks from labeler to assign correct tag
 
-# group-reference-objects-into-batches
-Reference objects are grouped into batches by columns from CSV catalog.
+# How To Use
+
+**Step 1:** Add app to your team from Ecosystem if it is not there.
+
+**Step 2:** Run app 
+ 
+
+
