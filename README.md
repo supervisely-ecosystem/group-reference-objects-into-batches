@@ -5,7 +5,8 @@
 
 <p align="center">
   <a href="#Overview">Overview</a> •
-  <a href="#How-To-Run">How To Use</a>
+  <a href="#How-To-Run">How To Run</a>
+  <a href="#How-To-Use">How To Use</a>
 </p>
 
 
@@ -20,7 +21,7 @@
 
 ## Overview
 
-Labeling for tagging or classification tasks becomes complex when annotation team have to deal with hundreds or thousands of tags or classes. This app groups items from catalog by one or several columns and then splits groups into small batches. This app is a part of complex tagging/classification pipline. For example, you can see all apps from retail collection [TODO: add link]().
+Labeling for tagging or classification tasks becomes complex when annotation team have to deal with hundreds or thousands of tags or classes. This app groups items from catalog by one or several columns and then splits groups into small batches. This app is a part of complex tagging/classification pipline. For example, you can see all apps from [retail collection](https://ecosystem.supervise.ly/).
 
 Let's consider retail case as example:
 - We need to label product shelves: draw bounding boxes around every object and assign correct class from catalog
@@ -36,7 +37,7 @@ Key **advantages** of this approach:
 - the chance of error is reduced significantly
 - if bbox is matched with one of 9 items from batch it takes just few clicks from labeler to assign correct tag
 
-# How To Use
+# How To Run
 
 **Step 1:** Add app to your team from Ecosystem if it is not there.
 
@@ -44,6 +45,26 @@ Key **advantages** of this approach:
  
  <img src="https://i.imgur.com/Y5PgfbT.png"/>
  
-**Step 2:** Run app  
+**Step 3:** What until UI is ready
+
+# How To Use
+
+**Step 1:** Define the path to CSV product catalog in `Team Files` and press `Preview catalog` button
+
+Before:
+ <img src="https://i.imgur.com/6ds1Rnl.png"/>
+
+After:
+ <img src="https://i.imgur.com/xTDnKYt.png"/>
+ 
+ **Step 2:** Define the path to directory with JSON reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervise.ly/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
+ 
+Before:
+ <img src="https://i.imgur.com/Qw5uKtJ.png"/>
+
+After:
+ <img src="https://i.imgur.com/kVm53pY.png"/>
+
+
 
 
