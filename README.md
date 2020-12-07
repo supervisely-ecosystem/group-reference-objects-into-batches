@@ -73,6 +73,6 @@ Before:
  <img src="https://i.imgur.com/EU4cS1g.png"/>
 
 After:
- <img src="https://i.imgur.com/OUM7FBM.png"/>
+ <img src="https://i.imgur.com/tWB1Q5G.png"/>
  
 
