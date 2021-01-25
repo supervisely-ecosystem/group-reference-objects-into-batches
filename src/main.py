@@ -121,7 +121,7 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
         fields = [
             {"field": "data.referenceMessage", "payload": remote_path + " :" + repr(e)},
             {"field": "data.messageColor", "payload": "red"},
-            {"field": "data.keyTagName", "payload": ""},
+            {"field": "data.keyImageField", "payload": ""},
         ]
         REFERENCE_DATA = {}
 
@@ -207,8 +207,10 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
             batch_catalog = batch_original["df"].to_json(orient="records")
             batch_catalog = json.loads(batch_catalog)
             for batch_catalog_row in batch_catalog:
-                key = batch_catalog_row[state["selectedColumn"]]
+                key = str(batch_catalog_row[state["selectedColumn"]])
                 batch["references"][key] = KEY_EXAMPLES[key]
+                if len(KEY_EXAMPLES[key]) == 0:
+                    raise ValueError(f"0 examples for key {key}")
                 del batch_catalog_row['#']
                 batch["references_catalog_info"][key] = batch_catalog_row
 
