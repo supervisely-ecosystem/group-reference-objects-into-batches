@@ -200,7 +200,8 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
                 "group_columns": dict(zip(batch_original["column_names"], batch_original["column_values"])),
                 "key_col_name": state["selectedColumn"],
                 "references": {},
-                "references_catalog_info": {}
+                "references_catalog_info": {},
+                "catalog_path": state["catalogPath"]
             }
 
             batch_original["df"]: pd.DataFrame
