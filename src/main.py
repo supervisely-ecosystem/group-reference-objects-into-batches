@@ -15,7 +15,7 @@ CATALOG_COLUMNS = []
 
 REFERENCE_PATHS = None
 REFERENCE_DATA = {}
-KEY_TAG_NAME = None
+KEY_IMAGE_FIELD = None
 KEY_EXAMPLES = None
 
 GROUP_COLUMNS = None
@@ -82,7 +82,7 @@ def preview_reference_files(api: sly.Api, task_id, context, state, app_logger):
 @my_app.callback("validate_reference_files")
 @sly.timeit
 def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
-    global REFERENCE_DATA, KEY_TAG_NAME, KEY_EXAMPLES
+    global REFERENCE_DATA, KEY_IMAGE_FIELD, KEY_EXAMPLES
     all_keys = set()
     references_count = 0
     KEY_EXAMPLES = defaultdict(list)
@@ -95,12 +95,12 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
             local_path = os.path.join(my_app.data_dir, remote_path.lstrip("/"))
             api.file.download(TEAM_ID, remote_path, local_path)
             cur_ref_data = sly.json.load_json_file(local_path)
-            if KEY_TAG_NAME is None:
-                KEY_TAG_NAME = cur_ref_data["key_tag_name"]
+            if KEY_IMAGE_FIELD is None:
+                KEY_IMAGE_FIELD = cur_ref_data["key_image_field"]
             else:
-                if cur_ref_data["key_tag_name"] != KEY_TAG_NAME:
-                    raise ValueError("Key tag name {!r} in file {!r} differs from name in other files"
-                                     .format(cur_ref_data["key_tag_name"], remote_path))
+                if cur_ref_data["key_image_field"] != KEY_IMAGE_FIELD:
+                    raise ValueError("Key image name {!r} in file {!r} differs from name in other files"
+                                     .format(cur_ref_data["key_image_field"], remote_path))
             REFERENCE_DATA[remote_path] = cur_ref_data
 
             for key, examples in cur_ref_data["references"].items():
@@ -113,7 +113,7 @@ def validate_reference_files(api: sly.Api, task_id, context, state, app_logger):
             {"field": "data.referenceMessage", "payload": "Validation passed: {} reference items with {} examples"
                                                           .format(len(all_keys), references_count)},
             {"field": "data.messageColor", "payload": "green"},
-            {"field": "data.keyTagName", "payload": KEY_TAG_NAME},
+            {"field": "data.keyImageField", "payload": KEY_IMAGE_FIELD},
             {"field": "data.keysCount", "payload": len(all_keys)},
             {"field": "data.referencesCount", "payload": references_count},
         ]
