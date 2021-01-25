@@ -132,7 +132,8 @@ After:
         "price": 22.99,
         "merchant": "Bestbuy.com"
       }
-    }
+    },
+    "catalog_path": "/reference_items/1120-water-catalog.csv"
   },
   {
     "batch_index": 1,
@@ -147,3 +148,4 @@ Result JSON - list of objects, that describe every batch of reference objects:
 - `key_col_name` - name of the column in CSV catalog that is used to match reference item with correct row from product catalog
 - `references` - dictionary with reference examples for every item (format is the same as in [reference items format](https://github.com/supervisely-ecosystem/create-json-with-reference-items#json-format))
 - `references_catalog_info` - information from catalog for every reference item
+- `catalog_path` - path to the catalog in Team Files
