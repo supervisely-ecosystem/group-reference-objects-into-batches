@@ -195,7 +195,12 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
 
         result = []
         for idx, batch_original in enumerate(BATCHES):
+            batch_original["df"]: pd.DataFrame
+            batch_catalog = batch_original["df"].to_json(orient="records")
+            batch_catalog = json.loads(batch_catalog)
+
             batch = {
+                "items_count": len(batch_catalog),
                 "batch_index": idx,
                 "group_columns": dict(zip(batch_original["column_names"], batch_original["column_values"])),
                 "key_col_name": state["selectedColumn"],
@@ -204,9 +209,6 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
                 "catalog_path": state["catalogPath"]
             }
 
-            batch_original["df"]: pd.DataFrame
-            batch_catalog = batch_original["df"].to_json(orient="records")
-            batch_catalog = json.loads(batch_catalog)
             for batch_catalog_row in batch_catalog:
                 key = str(batch_catalog_row[state["selectedColumn"]])
                 batch["references"][key] = KEY_EXAMPLES[key]
@@ -214,7 +216,7 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
                     raise ValueError(f"0 examples for key {key}")
                 del batch_catalog_row['#']
                 batch["references_catalog_info"][key] = batch_catalog_row
-            batch["items_count"] = len(batch["references"])
+            #batch["items_count"] = len(batch["references"])
             result.append(batch)
 
         local_path = os.path.join(my_app.data_dir, sly.fs.get_file_name_with_ext(state["savePath"]))
