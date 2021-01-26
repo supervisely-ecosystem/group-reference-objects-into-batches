@@ -109,6 +109,7 @@
                 <div class="mb15" v-if="data.groupsPreview.length > 0" style="overflow: scroll; max-height: 400px;">
                     <div v-for="(item, index) in data.groupsPreview" :key="index">
                         <div class="mt15" style="color: green"><b>Group #{{index}}</b></div>
+                        <div>Items count: <b>{{item.count}}</b></div>
                         <div v-for="(colName, index2) in data.groupColumnNames">
                             <span style="color: #bf00ff"><b>{{colName}}: </b></span>
                             <span style="color: #0040ff">{{data.groupColumnValues[index][index2]}}</span>

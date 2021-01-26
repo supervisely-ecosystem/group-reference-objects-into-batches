@@ -90,6 +90,7 @@ After:
 [
   {
     "batch_index": 0,
+    "items_count": 3,
     "group_columns": {
       "category": "Accessories",
       "sub-category": "Portable Power Banks",
@@ -144,6 +145,7 @@ After:
 
 Result JSON - list of objects, that describe every batch of reference objects:
 - `batch_index` - index of the batch
+- `items_count` - number of items in batch   
 - `group_columns` - the names of columns and corresponding values used to group items (`groupBy` operation)
 - `key_col_name` - name of the column in CSV catalog that is used to match reference item with correct row from product catalog
 - `references` - dictionary with reference examples for every item (format is the same as in [reference items format](https://github.com/supervisely-ecosystem/create-json-with-reference-items#json-format))

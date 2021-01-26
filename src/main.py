@@ -169,7 +169,7 @@ def preview_groups(api: sly.Api, task_id, context, state, app_logger):
             _group_column_values.append(k)
             batch_df = batch_df.drop('#', axis=1)
             html = batch_df.to_html(index=False)
-            groups_preview.append({"name": group_name, "htmlTable": html, "index": group_index})
+            groups_preview.append({"name": group_name, "htmlTable": html, "index": group_index, "count": len(batch_df)})
             group_index += 1
 
     save_path = api.file.get_free_name(TEAM_ID, os.path.join(state["referenceDir"], "batches.json"))
@@ -214,7 +214,7 @@ def save_groups(api: sly.Api, task_id, context, state, app_logger):
                     raise ValueError(f"0 examples for key {key}")
                 del batch_catalog_row['#']
                 batch["references_catalog_info"][key] = batch_catalog_row
-
+            batch["items_count"] = len(batch["references"])
             result.append(batch)
 
         local_path = os.path.join(my_app.data_dir, sly.fs.get_file_name_with_ext(state["savePath"]))
