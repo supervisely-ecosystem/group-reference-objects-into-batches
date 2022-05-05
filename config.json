@@ -12,5 +12,6 @@
   "gui_template": "src/gui.html",
   "task_location": "application_sessions",
   "icon": "https://img.icons8.com/color/96/000000/separated-lists.png",
-  "icon_background": "#FFFFFF"
+  "icon_background": "#FFFFFF",
+  "poster": "https://i.imgur.com/Ab2GHSQ.png"
 }
