@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://i.imgur.com/Ab2GHSQ.png"/>
+<img src="https://user-images.githubusercontent.com/48245050/182596595-3f283416-da7f-4305-b957-9f873208edd0.png"/>
 
 # Group reference objects into batches
 
