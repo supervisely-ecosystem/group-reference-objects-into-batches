@@ -44,36 +44,36 @@ Key **advantages** of this approach:
 
 **Step 2:** Run app 
  
- <img src="https://i.imgur.com/Y5PgfbT.png"/>
+ <img src="media/htr2.png"/>
  
 **Step 3:** What until UI is ready
 
 # How To Use
 
-[![Watch the video](https://i.imgur.com/grDPMed.png)](https://youtu.be/MyrOgn4RpyA)
+[![Watch the video](media/htu.png)](https://youtu.be/MyrOgn4RpyA)
 
 **Step 1:** Define the path to `CSV` product catalog in `Team Files` and press `Preview catalog` button
 
 Before:
- <img src="https://i.imgur.com/6ds1Rnl.png"/>
+ <img src="media/htu1a.png"/>
 
 After:
- <img src="https://i.imgur.com/xTDnKYt.png"/>
+ <img src="media/htu1b.png"/>
  
  **Step 2:** Define the path to directory with `JSON` reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervise.ly/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
  
 Before:
- <img src="https://i.imgur.com/28A6AUg.png"/>
+ <img src="media/htu2a.png"/>
 
 After:
- <img src="https://i.imgur.com/OUM7FBM.png"/>
+ <img src="media/htu2b.png"/>
 
 
 **Step 3:** Match reference item with column from CSV catalog, choose `groupBy` columns from catalog (order matters), define batch size and press `Create groups` button. Then preview groups. You can change some grouping parameters and press `Create groups` button again. If you satisfied with results, setup save path and press `Save` button. Resulting groups will be saved to `Team Files` in `JSON` format.
 
 
 Before:
- <img src="https://i.imgur.com/EU4cS1g.png"/>
+ <img src=""/>
 
 After:
  <img src="https://i.imgur.com/tWB1Q5G.png"/>
