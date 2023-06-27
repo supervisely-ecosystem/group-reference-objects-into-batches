@@ -73,14 +73,14 @@ After:
 
 
 Before:
- <img src=""/>
+ <img src="media/htu3a.png"/>
 
 After:
- <img src="https://i.imgur.com/tWB1Q5G.png"/>
+ <img src="media/htu3b.png"/>
  
 **Step 4:** Stop app manually
 
-<img src="https://i.imgur.com/flXfONq.png"/>
+<img src="media/htu4.png"/>
 
 
 # Result JSON format
