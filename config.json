@@ -5,7 +5,7 @@
     "collaboration"
   ],
   "description": "Group items by selected columns from CSV catalog",
-  "docker_image": "supervisely/base-py-sdk:6.35.0",
+  "docker_image": "supervisely/base-py-sdk:6.72.56",
   "main_script": "src/main.py",
   "modal_template": "src/modal.html",
   "gui_template": "src/gui.html",
