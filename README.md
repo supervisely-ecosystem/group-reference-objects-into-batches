@@ -11,17 +11,17 @@
 </p>
 
 
-[![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](https://ecosystem.supervise.ly/apps/group-reference-objects-into-batches)
-[![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervise.ly/slack)
+[![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](https://ecosystem.supervisely.com/apps/group-reference-objects-into-batches)
+[![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervisely.com/slack)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/supervisely-ecosystem/group-reference-objects-into-batches)
-[![views](https://app.supervise.ly/img/badges/views/supervisely-ecosystem/group-reference-objects-into-batches.png)](https://supervise.ly)
-[![runs](https://app.supervise.ly/img/badges/runs/supervisely-ecosystem/group-reference-objects-into-batches.png)](https://supervise.ly)
+[![views](https://app.supervisely.com/img/badges/views/supervisely-ecosystem/group-reference-objects-into-batches.png)](https://supervisely.com)
+[![runs](https://app.supervisely.com/img/badges/runs/supervisely-ecosystem/group-reference-objects-into-batches.png)](https://supervisely.com)
 
 </div>
 
 # Overview
 
-Labeling for tagging or classification tasks becomes complex when annotation team have to deal with hundreds or thousands of tags or classes. This app groups items from catalog by one or several columns and then splits groups into small batches. This app is a part of complex tagging/classification pipline. For example, you can see all apps from [retail collection](https://ecosystem.supervise.ly/).
+Labeling for tagging or classification tasks becomes complex when annotation team have to deal with hundreds or thousands of tags or classes. This app groups items from catalog by one or several columns and then splits groups into small batches. This app is a part of complex tagging/classification pipline. For example, you can see all apps from [retail collection](https://ecosystem.supervisely.com/).
 
 Let's consider retail case as example:
 - We need to label product shelves: draw bounding boxes around every object and assign correct class from catalog
@@ -60,7 +60,7 @@ Before:
 After:
  <img src="https://i.imgur.com/xTDnKYt.png"/>
  
- **Step 2:** Define the path to directory with `JSON` reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervise.ly/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
+ **Step 2:** Define the path to directory with `JSON` reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervisely.com/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
  
 Before:
  <img src="https://i.imgur.com/28A6AUg.png"/>
