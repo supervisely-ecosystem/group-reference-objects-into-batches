@@ -11,7 +11,7 @@
 </p>
 
 
-[![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](https://ecosystem.supervisely.com/apps/group-reference-objects-into-batches)
+[![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](../../../../supervisely-ecosystem/group-reference-objects-into-batches)
 [![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervisely.com/slack)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/supervisely-ecosystem/group-reference-objects-into-batches)
 [![views](https://app.supervisely.com/img/badges/views/supervisely-ecosystem/group-reference-objects-into-batches.png)](https://supervisely.com)
@@ -60,7 +60,7 @@ Before:
 After:
  <img src="https://i.imgur.com/xTDnKYt.png"/>
  
- **Step 2:** Define the path to directory with `JSON` reference files that created with the app ["Create JSON with reference items"](https://ecosystem.supervisely.com/apps/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
+ **Step 2:** Define the path to directory with `JSON` reference files that created with the app ["Create JSON with reference items"](../../../../supervisely-ecosystem/create-json-with-reference-items), press `Preview files` button, select files that should be used and then press `Validate` button.
  
 Before:
  <img src="https://i.imgur.com/28A6AUg.png"/>
