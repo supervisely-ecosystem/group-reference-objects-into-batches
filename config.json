@@ -1,6 +1,7 @@
 {
     "name": "Group reference objects into batches",
     "type": "app",
+    "instance_version": "6.15.60",
     "categories": [
         "collaboration"
     ],
