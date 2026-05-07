@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from collections import defaultdict
 
-import supervisely_lib as sly
+import supervisely as sly
 from generate_example import prepare_example
 
 
